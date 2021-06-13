@@ -1,0 +1,18 @@
+name: codescuffle
+version: 0.1.0
+
+authors:
+  - Andriamanitra
+
+targets:
+  codescuffle:
+    main: src/codescuffle.cr
+
+dependencies:
+  kemal:
+    github: kemalcr/kemal
+
+
+crystal: 1.0.0
+
+license: MIT
