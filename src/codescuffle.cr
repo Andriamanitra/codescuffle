@@ -1,4 +1,5 @@
 require "kemal"
+require "json"
 
 PORT = 8080
 
@@ -9,6 +10,12 @@ SUPPORTED_LANGUAGES =
     .map(&.lchop("scuffle_"))
 
 p! SUPPORTED_LANGUAGES
+
+# TODO: move this to a separate file
+class CodeRunRequest
+  include JSON::Serializable
+  property code : String
+end
 
 def docker_run(docker_image : String, code : String)
   stdout = IO::Memory.new
@@ -25,6 +32,8 @@ def docker_run(docker_image : String, code : String)
   process.wait
 
   # TODO: add some information about execution time and other good stuff
+  # - How to measure execution time, preferably without the time it takes
+  #   for docker container to spin up?
   run_result = JSON.build do |json|
     json.object do
       json.field "stdout", stdout.to_s
@@ -36,14 +45,39 @@ end
 post "/api/v1/run/:language" do |env|
   language = SUPPORTED_LANGUAGES.find(&.==(env.params.url["language"]))
 
-  # TODO: proper response (with status code)
-  next "Unknown language, add it?" if language.nil?
+  if language.nil?
+    env.response.respond_with_status(404, "Not found: Invalid or unsupported language specified")
+    next
+  end
 
-  # TODO: Error handling
-  code = env.params.json["code"].as(String)
+  begin
+    code_run_request = CodeRunRequest.from_json(env.request.body.not_nil!)
+  rescue ex
+    puts ex.message
+    env.response.respond_with_status(400, "Invalid request: Failed to parse request body")
+    next
+  end
 
-  # TODO: proper response
-  docker_run("scuffle_#{language}", code)
+  env.response.content_type = "application/json"
+  docker_run("scuffle_#{language}", code_run_request.code)
+end
+
+get "/api/v1/languages" do |env|
+  env.response.content_type = "application/json"
+  JSON.build do |json|
+    json.object do
+      json.field "languages" do
+        json.array do
+          SUPPORTED_LANGUAGES.each do |language_name|
+            json.object do
+              json.field "name", language_name
+              json.field "version", "unknown" # TODO
+            end
+          end
+        end
+      end
+    end
+  end
 end
 
 Kemal.run(PORT)

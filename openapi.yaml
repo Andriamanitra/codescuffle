@@ -19,17 +19,23 @@ tags:
 
 paths:
   /run/{language}:
-    get:
+    post:
       tags:
       - code
       summary: Run some code written in a specific language and return the output
-      operationId: getCodeRunResult
+      operationId: runCode
       parameters:
       - name: language
         in: path
         required: true
         schema:
           $ref: '#/components/schemas/LanguageName'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CodeRunRequest'
       responses:
         200:
           description: Successful operation
@@ -67,6 +73,16 @@ components:
       enum:
       - julia
       - ruby
+
+    CodeRunRequest:
+      type: object
+      description:
+        "Object describing the code that needs to run. In the future this object may also specify other requirements (environment variables or files that need to be created before execution, compilation flags, time/memory limits... )"
+      properties:
+        code:
+          type: string
+      example:
+        code: 'print("Hello World!")'
 
     CodeRunResult:
       type: object
