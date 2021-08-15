@@ -59,6 +59,10 @@ post "/api/v1/run/:language" do |env|
   end
 
   env.response.content_type = "application/json"
+
+  # TODO: this currently allows requests from any site, not sure if good idea?
+  env.response.headers.add("Access-Control-Allow-Origin", "*")
+
   docker_run("scuffle_#{language}", code_run_request.code)
 end
 
@@ -78,6 +82,14 @@ get "/api/v1/languages" do |env|
       end
     end
   end
+end
+
+# TODO: figure out this CORS nonsense.. currently this says that basically everything is allowed
+# at any end point
+options "/api/v1/*" do |env|
+  env.response.headers.add("Allow", "HEAD,GET,PUT,POST,DELETE,OPTIONS")
+  env.response.headers.add("Access-Control-Allow-Headers", "X-Requested-With, X-HTTP-Method-Override, Content-Type, Cache-Control, Accept")
+  env.response.headers.add("Access-Control-Allow-Origin", "*")
 end
 
 Kemal.run(PORT)
