@@ -1,0 +1,1 @@
+This file is here just to make sure `build` directory exists (git doesn't allow committing empty directories) and binaries can be placed here. Other files in this directory should not be committed to version control!
