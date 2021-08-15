@@ -11,7 +11,7 @@ RESTful API to run code in various languages inside docker containers, maybe eve
 
 1. Figure out if this is a terrible idea
 1. API definition (OpenAPI)
-1. Tests (Crystal spec)
+1. Tests (Crystal spec, + somehow automatically generate tests from openapi.yaml?)
 1. Web Interface (???)
 1. Database (???)
 1. Dummy coding problems for testing
