@@ -1,0 +1,69 @@
+html,
+body {
+    margin: 0;
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1 0 auto;
+}
+
+header,
+footer {
+    background-color: rgb(113, 201, 13);
+    min-height: 50px;
+}
+
+header {
+    background-image: url(logo.png);
+    background-size: 10%;
+    background-repeat: no-repeat;
+    background-position: 10px;
+}
+
+footer {
+    flex-shrink: 0;
+}
+
+.column-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.left-side {
+    resize: horizontal;
+    border-right: 1px solid black;
+    margin-right: 10px;
+    overflow: scroll;
+    max-width: 60%;
+    width: 45%;
+}
+
+.editor {
+    flex-grow: 2;
+}
+
+.editor>textarea {
+    width: 98%;
+    min-width: 40vw;
+    min-height: 30vw;
+    height: 80vh;
+    margin: 5px;
+    resize: vertical;
+}
+
+.mono-box {
+    font-family: monospace;
+    margin: 5px;
+    padding: 10px;
+    outline: 2px solid rgb(113, 201, 13);
+}
+
+#stderr {
+    color: red;
+}
