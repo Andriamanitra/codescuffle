@@ -10,7 +10,7 @@ RESTful API to run code in various languages inside docker containers, maybe eve
 ## Ideas / TODO list (roughly in order of importance)
 
 1. Figure out if this is a terrible idea
-1. API definition (OpenAPI?)
+1. API definition (OpenAPI)
 1. Tests (Crystal spec)
 1. Web Interface (???)
 1. Database (???)
@@ -24,6 +24,11 @@ RESTful API to run code in various languages inside docker containers, maybe eve
 * I want to keep everything open source and open for anyone to contribute
 * I'm hesitant to use cloud providers for this project, I'd rather just self-host to keep it simple (+ it makes it super easy and approachable for anyone to host a copy locally for development)
 * Oracle Fn seems cool, probably more complicated to set up than docker containers though
+
+
+## API specification
+
+Every end point is and will be thoroughly documented using OpenAPI Specification in file [openapi.yaml](./openapi.yaml). You can look at the current version in [Swagger editor](https://editor.swagger.io/). Easiest way to import the spec is to click "File -> Import URL" and paste this URL: `https://raw.githubusercontent.com/Andriamanitra/codescuffle/main/openapi.yaml`
 
 
 ## Adding languages
