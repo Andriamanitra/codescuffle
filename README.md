@@ -45,3 +45,6 @@ Every end point is and will be thoroughly documented using OpenAPI Specification
 * Timeouts (**NOT** implemented yet)
 * CPU / Memory usage limits (**NOT** implemented yet)
 * if you know security stuffs help would be appreciated here
+
+## Building & running the app
+Run `./build.sh` to build a statically linked binary inside docker. You can check `Dockerfile` and `build.sh` to see exactly what they do, but as the end result you should get a binary that you can run with this command: `./build/codescuffle`
