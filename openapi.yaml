@@ -1,0 +1,101 @@
+openapi: 3.0.1
+
+info:
+  title: CodeScuffle Code Running API
+  description: 'Run CodeScuffle solutions'
+  license:
+    name: MIT license
+    url: https://github.com/Andriamanitra/codescuffle/blob/main/LICENSE
+  version: 0.0.1
+
+servers:
+- url: http://localhost:8080/api/v1/
+
+tags:
+- name: code
+  description: Running code
+- name: languages
+  description: Information about available languages
+
+paths:
+  /run/{language}:
+    get:
+      tags:
+      - code
+      summary: Run some code written in a specific language and return the output
+      operationId: getCodeRunResult
+      parameters:
+      - name: language
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/LanguageName'
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CodeRunResult'
+        400:
+          description: Invalid request
+        404:
+          description: Specified language not found or supported
+
+  /languages:
+    get:
+      tags:
+      - languages
+      summary: Get a list of supported languages
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  languages:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Language'
+
+components:
+  schemas:
+    LanguageName:
+      type: string
+      enum:
+      - julia
+      - ruby
+
+    CodeRunResult:
+      type: object
+      properties:
+        stdout:
+          type: string
+        stderr:
+          type: string
+        compilationTime:
+          type: integer
+          format: uint32
+          description: If a language is compiled, time taken to compile the code (in microseconds), otherwise 0
+        executionTime:
+          type: integer
+          format: uint32
+          description: Time taken to run the code (in microseconds)
+      example:
+        stdout: Hello World!
+        stderr: ''
+        compilationTime: 62388
+        executionTime: 24773
+
+    Language:
+      type: object
+      properties:
+        name:
+          $ref: '#/components/schemas/LanguageName'
+        version:
+          type: string
+      example:
+        name: julia
+        version: 1.6.2
