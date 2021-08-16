@@ -11,44 +11,93 @@
 </head>
 
 <body>
-    <header></header>
-    <main class="content column-container">
-        <div class="left-side">
-            <div>
-                <h2>Problem statement</h2>
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Libero asperiores sed odit sunt rem porro ab fugit sit ullam veniam odio unde commodi, cupiditate omnis, vel, enim repellat voluptatibus! Itaque vitae architecto temporibus impedit
-                    commodi aspernatur vero nobis, nihil totam quam cum rerum accusantium porro quasi quae ullam eligendi ab? Sed magnam architecto alias voluptatum dicta, eveniet culpa tempore, ad amet laudantium aut nobis, blanditiis minima eos cumque
-                    distinctio. Consequuntur earum aspernatur eum obcaecati perspiciatis.</p>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae eum tempora minima sapiente? Omnis neque aspernatur reiciendis a adipisci nobis perferendis veniam, nostrum et labore eos veritatis error expedita soluta ex? Porro harum nisi
-                    ullam a vero veritatis nulla molestiae sint fuga dolor tempora veniam quisquam facere voluptates numquam doloribus odit dicta cupiditate maiores libero id, ab possimus voluptatum? Sed?</p>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime, fugit enim culpa ipsam nulla incidunt placeat amet itaque quisquam aspernatur, consectetur laborum id ratione nam officiis exercitationem, sapiente tenetur cupiditate.</p>
-            </div>
-            <div>
-                <h2>Test cases</h2>
-                <div class="column-container">
-                    <div class="mono-box">Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis, libero sit similique ipsam eveniet modi accusamus iste optio! Quaerat, expedita!</div>
-                    <div class="mono-box">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ab sapiente omnis consequuntur vitae sit soluta quae voluptate modi facilis dolor.</div>
-                </div>
-            </div>
-            <div>
-                <h2>Output</h2>
-                <div id="output" class="mono-box">
-                    <p id="stderr"></p>
-                    <p id="stdout"></p>
-                </div>
-            </div>
-        </div>
-        <div class="editor">
-            <textarea id="code">code here</textarea>
-            <button>Test</button>
-            <button id="submit-button" type="submit">Submit</button>
-            <select id="programming-language">
-                <option value="julia">Julia</option>
-                <option value="ruby">Ruby</option>
-            </select>
-        </div>
-    </main>
-    <footer><a href="https://github.com/andriamanitra/codescuffle">GitHub</a></footer>
+  <header><h1>CodeScuffle</h1></header>
+  <main class="content column-container">
+    <div class="left-side">
+      <div>
+        <h2>Problem statement</h2>
+        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Libero asperiores sed odit sunt rem porro ab fugit sit ullam veniam odio unde commodi, cupiditate omnis, vel, enim repellat voluptatibus! Itaque vitae architecto temporibus impedit
+          commodi aspernatur vero nobis, nihil totam quam cum rerum accusantium porro quasi quae ullam eligendi ab? Sed magnam architecto alias voluptatum dicta, eveniet culpa tempore, ad amet laudantium aut nobis, blanditiis minima eos cumque
+          distinctio. Consequuntur earum aspernatur eum obcaecati perspiciatis.</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae eum tempora minima sapiente? Omnis neque aspernatur reiciendis a adipisci nobis perferendis veniam, nostrum et labore eos veritatis error expedita soluta ex? Porro harum nisi
+          ullam a vero veritatis nulla molestiae sint fuga dolor tempora veniam quisquam facere voluptates numquam doloribus odit dicta cupiditate maiores libero id, ab possimus voluptatum? Sed?</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime, fugit enim culpa ipsam nulla incidunt placeat amet itaque quisquam aspernatur, consectetur laborum id ratione nam officiis exercitationem, sapiente tenetur cupiditate.</p>
+      </div>
+      <div>
+          <h2>Test cases</h2>
+          <div class="column-container">
+              <div class="mono-box">Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis, libero sit similique ipsam eveniet modi accusamus iste optio! Quaerat, expedita!</div>
+              <div class="mono-box">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ab sapiente omnis consequuntur vitae sit soluta quae voluptate modi facilis dolor.</div>
+          </div>
+      </div>
+      <div>
+          <h2>Output</h2>
+          <div id="output" class="mono-box">
+            <pre>
+              <div id="stderr">Error: Testing</div>
+              <div id="stdout">Hello, world!</div>
+            </pre>
+          </div>
+      </div>
+    </div>
+    <div class="editor">
+      <div class="code-editor">
+        <div id="monaco"></div>
+        <script src="./monaco-editor/min/vs/loader.js"></script>
+        <script>
+          require.config({ paths: { vs: "./monaco-editor/min/vs" } });
+  
+          require(["vs/editor/editor.main"], function () {
+          window.editor = monaco.editor.create(
+            document.getElementById("monaco"),
+            {
+              value: [""].join("\n"),
+              language: "none",
+              theme: "vs-dark",
+            }
+          );
+          const editor = window.editor
+  
+          window.onresize = function () {
+            editor.layout();
+          };
+          setInterval(_=>{
+            editor.layout();
+          }, 100)
+
+          window.addEventListener(
+              "message",
+              (e) => {
+                if (e.data.type === "set") {
+                  editor.setValue(e.data.data);
+                } else if (e.data.type === "get") {
+                  e.source.postMessage(editor.getValue(), e.origin);
+                }
+              },
+              false
+            );
+          });
+        </script>
+      </div>
+      <div class="editorButtons">
+        <button>Test</button>
+        <button id="submit-button">Submit</button>
+        <div class="spacer"></div>
+        <select name="languages" id="language-selector">
+          <option value="julia">Julia</option>
+          <option value="ruby">Ruby</option>
+        </select>
+        <script>
+          const updateLang = () => {
+            monaco.editor.setModelLanguage(window.editor.getModel(), document.getElementById("language-selector").value)
+          }
+          document.getElementById("language-selector").onchange = updateLang
+          updateLang()
+        </script>
+      </div>
+    </div>
+  </main>
+  <footer><a href="https://github.com/andriamanitra/codescuffle"><img src="./assets/GitHub-Mark-Light-64px.png" alt="GH" ></a></footer>
 </body>
 
 </html>

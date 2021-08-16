@@ -1,69 +1,131 @@
+:root {
+  --bg0: rgb(30, 30, 30);
+  --bg1: rgb(16, 16, 20);
+  --bg2: rgb(8, 8, 10);
+  --fg0: white;
+  --fg1: lightgray;
+  --neon: rgb(0, 140, 255);
+
+  --a: rgb(8, 8, 10);
+  --b: rgb(16, 16, 20);
+  --c: rgb(24, 24, 30);
+}
+
+@font-face {
+  font-family: "tiny islanders";
+  src: url("./assets/tiny-islanders.otf") format("woff");
+}
+
 html,
 body {
-    margin: 0;
-    height: 100%;
+  margin: 0;
+  height: 100%;
+  font-family: sans-serif;
 }
 
 body {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
+  color: var(--fg1);
 }
 
 main {
-    flex: 1 0 auto;
+  flex: 1;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: row;
+  gap: 1px;
+  background-color: white;
 }
 
 header,
 footer {
-    background-color: rgb(113, 201, 13);
-    min-height: 50px;
+  background-color: var(--bg1);
+  min-height: 50px;
 }
 
 header {
-    background-image: url(logo.png);
-    background-size: 10%;
-    background-repeat: no-repeat;
-    background-position: 10px;
+  font-family: "tiny islanders", monospace;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+}
+header h1 {
+  margin: 0;
+  margin-top: -0.35em;
+  color: var(--fg1);
 }
 
 footer {
-    flex-shrink: 0;
+  flex-shrink: 0;
+  padding: 0.5rem;
 }
-
-.column-container {
-    display: flex;
-    flex-direction: row;
+footer img {
+  height: 3rem;
 }
 
 .left-side {
-    resize: horizontal;
-    border-right: 1px solid black;
-    margin-right: 10px;
-    overflow: scroll;
-    max-width: 60%;
-    width: 45%;
+  display: flex;
+  flex-direction: column;
+  resize: horizontal;
+  overflow: scroll;
+  height: 100%;
+  width: 100%;
+  background-color: var(--bg0);
+  padding: 0 1rem;
 }
 
 .editor {
-    flex-grow: 2;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg0);
+}
+.code-editor {
+  flex: 1;
+  height: 100%;
+  /* overflow: hidden; */
+}
+#monaco {
+  width: 97%;
+  height: 100%;
 }
 
-.editor>textarea {
-    width: 98%;
-    min-width: 40vw;
-    min-height: 30vw;
-    height: 80vh;
-    margin: 5px;
-    resize: vertical;
+.editorButtons {
+  flex: 0;
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+  border-top: var(--fg1) 1px solid;
 }
-
-.mono-box {
-    font-family: monospace;
-    margin: 5px;
-    padding: 10px;
-    outline: 2px solid rgb(113, 201, 13);
+button,
+select {
+  font-size: 1.5rem;
+  border: none;
+  border-radius: 0.25rem;
+  margin: 0 0.1rem;
+  color: var(--fg1);
+  font-weight: bold;
+  padding: 0 1rem;
+  cursor: pointer;
+  background-color: var(--b);
+}
+button:hover,
+select:hover {
+  background-color: var(--a);
+}
+button:active,
+select:active {
+  background-color: var(--c);
+}
+.spacer {
+  width: 0.5rem;
+  height: 100%;
+  display: inline-block;
 }
 
 #stderr {
-    color: red;
+  color: red;
 }
