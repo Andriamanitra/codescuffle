@@ -63,15 +63,11 @@ end
 get "/api/v1/languages" do |env|
   env.response.content_type = "application/json"
   JSON.build do |json|
-    json.object do
-      json.field "languages" do
-        json.array do
-          SUPPORTED_LANGUAGES.each do |language_name|
-            json.object do
-              json.field "name", language_name
-              json.field "version", "unknown" # TODO
-            end
-          end
+    json.array do
+      SUPPORTED_LANGUAGES.each do |language_name|
+        json.object do
+          json.field "language", language_name
+          json.field "version", "unknown" # TODO
         end
       end
     end

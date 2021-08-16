@@ -59,18 +59,16 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  languages:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Language'
+                type: array
+                items:
+                  $ref: '#/components/schemas/Language'
 
 components:
   schemas:
     LanguageName:
       type: string
       enum:
+      - crystal
       - julia
       - ruby
 
@@ -114,10 +112,10 @@ components:
     Language:
       type: object
       properties:
-        name:
+        language:
           $ref: '#/components/schemas/LanguageName'
         version:
           type: string
       example:
-        name: julia
+        language: julia
         version: 1.6.2
