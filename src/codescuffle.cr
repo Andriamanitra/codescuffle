@@ -1,7 +1,10 @@
 require "kemal"
 require "json"
+require "./CodeRunRequest"
 
 PORT = 8080
+
+serve_static false
 
 # Look for languages (docker images tagged "scuffle_<language_name>")
 SUPPORTED_LANGUAGES =
@@ -11,35 +14,26 @@ SUPPORTED_LANGUAGES =
 
 p! SUPPORTED_LANGUAGES
 
-# TODO: move this to a separate file
-class CodeRunRequest
-  include JSON::Serializable
-  property code : String
-end
-
-def docker_run(docker_image : String, code : String)
+def docker_run(docker_image : String, code_run_request : CodeRunRequest)
   stdout = IO::Memory.new
-  stderr = IO::Memory.new
 
   process = Process.new(
     "docker",
-    args: ["run", "--rm", "--network", "none", docker_image, code],
-    output: stdout,
-    error: stderr
+    args: [
+      "run", "-a", "stdout", "-a", "stderr", "--rm",
+      "--network", "none",
+      "--tmpfs", "/tmpfs:exec",
+      docker_image, "runreqhandler", code_run_request.to_json,
+    ],
+    output: stdout
   )
 
   # TODO: make it timeout after a few seconds
   process.wait
 
-  # TODO: add some information about execution time and other good stuff
-  # - How to measure execution time, preferably without the time it takes
-  #   for docker container to spin up?
-  run_result = JSON.build do |json|
-    json.object do
-      json.field "stdout", stdout.to_s
-      json.field "stderr", stderr.to_s
-    end
-  end
+  # TODO: maybe it would be a good idea to verify that this json
+  # (currently stored in a string) is in the right format
+  stdout.to_s
 end
 
 post "/api/v1/run/:language" do |env|
@@ -53,7 +47,7 @@ post "/api/v1/run/:language" do |env|
   begin
     code_run_request = CodeRunRequest.from_json(env.request.body.not_nil!)
   rescue ex
-    puts ex.message
+    puts ex.message # TODO: probably want to log errors
     env.response.respond_with_status(400, "Invalid request: Failed to parse request body")
     next
   end
@@ -63,7 +57,7 @@ post "/api/v1/run/:language" do |env|
   # TODO: this currently allows requests from any site, not sure if good idea?
   env.response.headers.add("Access-Control-Allow-Origin", "*")
 
-  docker_run("scuffle_#{language}", code_run_request.code)
+  docker_run("scuffle_#{language}", code_run_request)
 end
 
 get "/api/v1/languages" do |env|

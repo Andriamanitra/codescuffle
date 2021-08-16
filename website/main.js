@@ -5,7 +5,7 @@ document.getElementById("submit-button").addEventListener("click", submitCode);
 function submitCode(ev) {
   let code = window.editor.getValue();
   let lang = document.getElementById("language-selector").value;
-  let codeRunRequest = { code: code };
+  let codeRunRequest = { code: code, stdin: "hello world" };
   let reqUrl = `${API_URL}/run/${lang}`;
   fetch(reqUrl, {
     method: "post",
@@ -16,7 +16,8 @@ function submitCode(ev) {
   })
     .then((resp) => resp.json())
     .then((data) => {
+      console.log(data);
       document.getElementById("stdout").innerText = data.stdout;
-      document.getElementById("stderr").innerText = data.stderr;
+      document.getElementById("stderr").innerText = data.compile_stderr + data.stderr;
     });
 }

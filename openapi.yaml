@@ -76,13 +76,15 @@ components:
 
     CodeRunRequest:
       type: object
-      description:
-        "Object describing the code that needs to run. In the future this object may also specify other requirements (environment variables or files that need to be created before execution, compilation flags, time/memory limits... )"
+      description: Object describing the code to run. In the future this object may also specify other requirements (environment variables or files that need to be created before execution, compilation flags, time/memory limits... )
       properties:
         code:
           type: string
+        stdin:
+          type: string
       example:
-        code: 'print("Hello World!")'
+        code: print(readline())
+        stdin: "Hello world!"
 
     CodeRunResult:
       type: object
@@ -91,19 +93,23 @@ components:
           type: string
         stderr:
           type: string
-        compilationTime:
-          type: integer
-          format: uint32
-          description: If a language is compiled, time taken to compile the code (in microseconds), otherwise 0
-        executionTime:
-          type: integer
-          format: uint32
-          description: Time taken to run the code (in microseconds)
+        compilation_stdout:
+          type: string
+        compilation_stderr:
+          type: string
+        compilation_time:
+          type: number
+          description: If a language is compiled, time taken to compile the code (in seconds), otherwise 0
+        execution_time:
+          type: number
+          description: Time taken to run the code (in seconds)
       example:
         stdout: Hello World!
         stderr: ''
-        compilationTime: 62388
-        executionTime: 24773
+        compilation_stdout: ''
+        compilation_stderr: ''
+        compilationTime: 0.0
+        executionTime: 0.105815
 
     Language:
       type: object

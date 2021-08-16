@@ -1,2 +1,4 @@
 FROM ruby:latest
-ENTRYPOINT ["ruby", "-e"]
+COPY build/runrequesthandler /bin/runreqhandler
+
+ENV SCUFFLE_RUN_COMMAND="ruby %CODE%"

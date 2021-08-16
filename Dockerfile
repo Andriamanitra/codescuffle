@@ -8,3 +8,4 @@ RUN shards install
 
 COPY src/*.cr /app/
 RUN crystal build --release --static codescuffle.cr
+RUN crystal build --release --static runrequesthandler.cr
