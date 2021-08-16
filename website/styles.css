@@ -32,6 +32,7 @@ body {
 main {
   flex: 1;
   overflow-y: scroll;
+  overflow-x: hidden;
   display: flex;
   flex-direction: row;
   gap: 1px;
@@ -69,9 +70,12 @@ footer img {
   display: flex;
   flex-direction: column;
   resize: horizontal;
+  flex-grow: 0;
+  flex-shrink: 0;
   overflow: scroll;
+  width: 40%;
+  max-width: 60%;
   height: 100%;
-  width: 100%;
   background-color: var(--bg0);
   padding: 0 1rem;
 }
