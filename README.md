@@ -33,10 +33,8 @@ Every end point is and will be thoroughly documented using OpenAPI Specification
 
 ## Adding languages
 
-1. Create a Dockerfile (with ENTRYPOINT that accepts code as an argument) under `languages/<language_name>/`
-2. `cd languages/<language_name>`
-3. `docker build --tag scuffle_<language_name> .`
-4. Done! Languages are loaded automatically on start-up based on the docker image's tag name.
+1. Create a Dockerfile under `languages/<language_name>/`. The Dockerfile needs to include `COPY build/runrequesthandler /bin/runreqhandler` and set environment variables `SCUFFLE_COMPILATION_COMMAND` (if separate compilation step is required) and `SCUFFLE_RUN_COMMAND`. In these environment variables you can use `%CODE%` to refer to the path to the source code file and `%EXECUTABLE%` to refer to the output path for the executable binary.
+2. Build the docker image for that language either by manually running `docker build --tag scuffle_LANGUAGENAME -f languages/LANGUAGENAME/Dockerfile .` in this directory or use `./create_lang_images.sh` which re-builds *all* language images (which may take a while).
 
 
 ## Abuse prevention measures
@@ -46,5 +44,6 @@ Every end point is and will be thoroughly documented using OpenAPI Specification
 * CPU / Memory usage limits (**NOT** implemented yet)
 * if you know security stuffs help would be appreciated here
 
+
 ## Building & running the app
-Run `./build.sh` to build a statically linked binary inside docker. You can check `Dockerfile` and `build.sh` to see exactly what they do, but as the end result you should get a binary that you can run with this command: `./build/codescuffle`
+Run `./build.sh` to build a statically linked binaries inside docker and `./create_lang_images.sh` to create language docker images. You can check `Dockerfile` and `build.sh` to see exactly what they do, but as the end result you should get a binary that you can run with this command: `./build/codescuffle`
