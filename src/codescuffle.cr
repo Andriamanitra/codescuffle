@@ -76,6 +76,7 @@ post "/api/v1/execute" do |env|
 end
 
 get "/api/v1/languages" do |env|
+  env.response.headers.add("Access-Control-Allow-Origin", "*")
   env.response.content_type = "application/json"
   JSON.build do |json|
     json.array do
