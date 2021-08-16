@@ -60,6 +60,21 @@ post "/api/v1/run/:language" do |env|
   docker_run("scuffle_#{language}", code_run_request)
 end
 
+post "/api/v1/execute" do |env|
+  env.response.headers.add("Access-Control-Allow-Origin", "*")
+  env.response.respond_with_status(501, "Not Implemented")
+  next
+
+  body = env.request.body
+  if body.nil?
+    env.response.respond_with_status(400, "Invalid request: No request body given")
+    next
+  end
+
+  # TODO: verify JSON format (create JSON::Serializable class)
+  # TODO: execute the code
+end
+
 get "/api/v1/languages" do |env|
   env.response.content_type = "application/json"
   JSON.build do |json|

@@ -63,6 +63,14 @@ paths:
       responses:
         200:
           description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExecutionResult'
+        400:
+          description: Invalid request
+        500:
+          description: Internal server error
 
   /languages:
     get:
@@ -183,3 +191,28 @@ components:
         run_memory_limit:
           type: number
           default: -1
+
+    ExecutionResult:
+      type: object
+      required:
+      - language
+      - run
+      properties:
+        language:
+          type: string
+          example: julia
+        version:
+          type: string
+          example: 1.6.2
+        run:
+          type: object
+          required:
+          - stdout
+          - stderr
+          properties:
+            stdout:
+              type: string
+              example: Hello world!
+            stderr:
+              type: string
+              example: ''
