@@ -48,6 +48,22 @@ paths:
         404:
           description: Specified language not found or supported
 
+  /execute:
+    post:
+      tags:
+      - code
+      summary: "(NOT IMPLEMENTED YET) Run some code written in a specific language"
+      description: "This end point is similar to the one provided by [Piston](https://github.com/engineer-man/piston/pkgs/container/piston) code execution engine"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExecuteRequest'
+      responses:
+        200:
+          description: Successful operation
+
   /languages:
     get:
       tags:
@@ -119,3 +135,51 @@ components:
       example:
         language: julia
         version: 1.6.2
+
+    File:
+      type: object
+      required:
+      - content
+      properties:
+        name:
+          type: string
+        content:
+          type: string
+
+    ExecuteRequest:
+      type: object
+      required:
+      - language
+      - version
+      - files
+      properties:
+        language:
+          type: string
+        version:
+          description: "The version of the language to use for execution, must be a string containing a SemVer selector for the version or the specific version number to use."
+          type: string
+        files:
+          description: "An array of files containing code or other data that should be used for execution. The first file in this array is considered the main file."
+          type: array
+          items:
+            $ref: '#/components/schemas/File'
+        stdin:
+          type: string
+          default: ''
+        args:
+          type: array
+          items:
+            type: string
+          default: []
+        compile_timeout:
+          type: number
+          default: 10000
+        run_timeout:
+          type: number
+          default: 3000
+        compile_memory_limit:
+          type: number
+          default: -1
+        run_memory_limit:
+          type: number
+          default: -1
