@@ -33,10 +33,10 @@
       <div>
           <h2>Output</h2>
           <div id="output" class="mono-box">
-            <pre>
-              <div id="stderr">Error: Testing</div>
-              <div id="stdout">Hello, world!</div>
-            </pre>
+            <div>
+              <pre id="stderr">Error: Testing</pre>
+              <pre id="stdout">Hello, world!</pre>
+            </div>
           </div>
       </div>
     </div>
@@ -85,7 +85,7 @@
         <div class="spacer"></div>
         <select name="languages" id="language-selector">
           <option value="crystal">Crystal</option>
-          <option value="julia">Julia</option>
+          <option value="julia" selected>Julia</option>
           <option value="ruby">Ruby</option>
         </select>
         <script>
@@ -93,7 +93,7 @@
             monaco.editor.setModelLanguage(window.editor.getModel(), document.getElementById("language-selector").value)
           }
           document.getElementById("language-selector").onchange = updateLang
-          updateLang()
+          window.addEventListener("load", updateLang);
         </script>
       </div>
     </div>
