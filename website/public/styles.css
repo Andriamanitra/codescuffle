@@ -66,6 +66,11 @@ footer img {
   height: 3rem;
 }
 
+.content {
+  background-color: var(--bg0);
+  padding: 0 1rem;
+}
+
 .left-side {
   display: flex;
   flex-direction: column;
@@ -76,8 +81,8 @@ footer img {
   width: 40%;
   max-width: 60%;
   height: 100%;
-  background-color: var(--bg0);
-  padding: 0 1rem;
+  /* without this chromium shows scrollbars even when nothing is overflowing */
+  overflow: auto;
 }
 
 .editor {
@@ -132,4 +137,17 @@ select:active {
 
 #stderr {
   color: red;
+}
+
+.logo > a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.links > a {
+  margin-left: 50px;
+}
+
+a {
+  color: var(--neon);
 }
