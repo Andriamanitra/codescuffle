@@ -1,3 +1,13 @@
 # CodeScuffle website
 
-TODO: write this
+## Building and running
+
+Install dependencies:
+```
+$ shards install
+```
+
+Build & run:
+```
+$ shards build && ./bin/website
+```
