@@ -1,0 +1,25 @@
+<% content_for "scripts_and_styles" do %>
+  <script src="./monaco-editor/min/vs/loader.js"></script>
+  <script src="./js/editor-config.js"></script>
+<% end %>
+
+<div class="editor">
+  <div class="code-editor">
+    <div id="monaco"></div>
+  </div>
+  <div class="editorButtons">
+  <button>Test</button>
+  <button id="submit-button">Submit</button>
+  <div class="spacer"></div>
+  <select name="languages" id="language-selector">
+      <option value="julia">Julia</option>
+  </select>
+  <script>
+      const updateLang = () => {
+      monaco.editor.setModelLanguage(window.editor.getModel(), document.getElementById("language-selector").value)
+      }
+      document.getElementById("language-selector").onchange = updateLang
+      window.addEventListener("load", updateLang);
+  </script>
+  </div>
+</div>

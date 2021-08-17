@@ -1,0 +1,36 @@
+<% content_for "scripts_and_styles" do %>
+  <script src="./piston-client.js" defer></script>
+  <script src="./monaco-editor/min/vs/loader.js"></script>
+  <script src="./js/editor-config.js"></script>
+<% end %>
+
+<main class="column-container">
+  <div class="left-side content">
+    <div>
+      <h2>Problem statement</h2>
+      <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Libero asperiores sed odit sunt rem porro ab fugit sit ullam veniam odio unde commodi, cupiditate omnis, vel, enim repellat voluptatibus! Itaque vitae architecto temporibus impedit
+        commodi aspernatur vero nobis, nihil totam quam cum rerum accusantium porro quasi quae ullam eligendi ab? Sed magnam architecto alias voluptatum dicta, eveniet culpa tempore, ad amet laudantium aut nobis, blanditiis minima eos cumque
+        distinctio. Consequuntur earum aspernatur eum obcaecati perspiciatis.</p>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae eum tempora minima sapiente? Omnis neque aspernatur reiciendis a adipisci nobis perferendis veniam, nostrum et labore eos veritatis error expedita soluta ex? Porro harum nisi
+        ullam a vero veritatis nulla molestiae sint fuga dolor tempora veniam quisquam facere voluptates numquam doloribus odit dicta cupiditate maiores libero id, ab possimus voluptatum? Sed?</p>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime, fugit enim culpa ipsam nulla incidunt placeat amet itaque quisquam aspernatur, consectetur laborum id ratione nam officiis exercitationem, sapiente tenetur cupiditate.</p>
+    </div>
+    <div>
+        <h2>Test cases</h2>
+        <div class="column-container">
+            <div class="mono-box">Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis, libero sit similique ipsam eveniet modi accusamus iste optio! Quaerat, expedita!</div>
+            <div class="mono-box">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ab sapiente omnis consequuntur vitae sit soluta quae voluptate modi facilis dolor.</div>
+        </div>
+    </div>
+    <div>
+        <h2>Output</h2>
+        <div id="output" class="mono-box">
+          <div>
+            <pre id="stderr"></pre>
+            <pre id="stdout"></pre>
+          </div>
+        </div>
+    </div>
+  </div>
+  <%= editor %>
+</main>
