@@ -44,6 +44,12 @@ This is broadcasted to ALL clients whenever the room owner changes.
 
 ---
 
+```PLAYERS:<JSON array of the names of the players in the room>```
+
+This is sent to clients when they first join the room.
+
+---
+
 ```PROBLEM:<the problem as JSON>```
 
 This is broadcasted to ALL clients whenever a new round starts. It is also sent to clients when they first join the room if a round is in progress.

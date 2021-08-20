@@ -73,6 +73,9 @@ class GameRoom
       player.websocket.send(msg_puzzle)
       player.websocket.send(msg_time_left)
     end
+
+    player.websocket.send(msg_players)
+
     broadcast("JOIN:#{player.name}")
   end
 
@@ -118,6 +121,10 @@ class GameRoom
 
   def msg_puzzle
     "PUZZLE:#{@puzzle}"
+  end
+
+  def msg_players
+    "PLAYERS:#{@players.map(&.name).to_json}"
   end
 
   def msg_time_left

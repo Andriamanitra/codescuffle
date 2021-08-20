@@ -8,8 +8,12 @@
     <div id="monaco"></div>
   </div>
   <div class="editorButtons">
-  <button>Test</button>
-  <button id="submit-button">Submit</button>
+  <% if is_gameroom %>
+  <button id="test-button" title="Execute code">Test</button>
+  <button id="submit-button" title="Submit finished solution">Submit</button>
+  <% else %>
+  <button id="test-button" title="Execute code">Execute</button>
+  <% end %>
   <div class="spacer"></div>
   <select name="languages" id="language-selector">
       <option value="julia">Julia</option>
