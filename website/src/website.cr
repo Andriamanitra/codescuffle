@@ -30,10 +30,12 @@ module Website
     id = context.ws_route_lookup.params["id"]
     room = gamerooms[id]?
     if room.nil?
+      socket.send "ERROR: Game room doesn't exist"
       socket.close
       next
     end
-    player = Player.new("Player1", socket)
+    # TODO: possibility to specify name when joining
+    player = Player.new("Player#{rand(10..50)}", socket)
     room.add_player(player)
   end
 
