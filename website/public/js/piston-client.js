@@ -3,7 +3,7 @@ const EXECUTE_API = "https://emkc.org/api/v2/piston/execute"
 
 let languages = []
 
-document.getElementById("submit-button").addEventListener("click", submitCode);
+document.getElementById("test-button").addEventListener("click", testCode);
 
 window.addEventListener("load", fetchLanguages);
 
@@ -23,7 +23,7 @@ function fetchLanguages() {
     })
 }
 
-function submitCode(ev) {
+function testCode(ev) {
   let code = window.editor.getValue();
   let selectedLanguage = document.getElementById("language-selector").value;
   let languageVersion = languages.find(x => x.language == selectedLanguage).version;

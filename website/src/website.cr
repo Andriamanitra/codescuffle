@@ -12,12 +12,20 @@ module Website
     render "src/views/index.ecr", "src/views/layouts/layout.ecr"
   end
 
-  get "/test" do |env|
-    editor = render("src/views/editor.ecr")
-    render "src/views/gameroom.ecr", "src/views/layouts/layout.ecr"
+  get "/play" do |env|
+    room_id = env.params.query["rid"]?
+    if room = gamerooms[room_id]?
+      is_gameroom = true
+      editor = render("src/views/editor.ecr")
+      render "src/views/gameroom.ecr", "src/views/layouts/layout.ecr"
+    else
+      # TODO: proper error page
+      env.response.respond_with_status(404, "Game room not found")
+    end
   end
 
   get "/editor" do |env|
+    is_gameroom = false
     render "src/views/editor.ecr", "src/views/layouts/layout.ecr"
   end
 
@@ -26,16 +34,16 @@ module Website
     render "src/views/puzzles.ecr", "src/views/layouts/layout.ecr"
   end
 
-  ws "/room/:id" do |socket, context|
-    id = context.ws_route_lookup.params["id"]
-    room = gamerooms[id]?
+  ws "/play" do |socket, env|
+    rid = env.params.query["rid"]?
+    room = gamerooms[rid]?
     if room.nil?
       socket.send "ERROR: Game room doesn't exist"
       socket.close
       next
     end
-    # TODO: possibility to specify name when joining
-    player = Player.new("Player#{rand(10..50)}", socket)
+    nickname = env.params.query["name"]? || "Player#{rand(10..80)}"
+    player = Player.new(nickname, socket)
     room.add_player(player)
   end
 
