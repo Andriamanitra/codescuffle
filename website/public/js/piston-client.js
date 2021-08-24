@@ -2,6 +2,7 @@ const LANGUAGES_API = "https://emkc.org/api/v2/piston/runtimes"
 const EXECUTE_API = "https://emkc.org/api/v2/piston/execute"
 
 let languages = []
+let preferredLanguage = localStorage.getItem("preferred_language") || "python"
 
 document.getElementById("test-button").addEventListener("click", testCode);
 
@@ -18,6 +19,7 @@ function fetchLanguages() {
         let option = document.createElement("option");
         option.text = obj.language[0].toUpperCase() + obj.language.substring(1);
         option.value = obj.language;
+        if (option.value == preferredLanguage) option.defaultSelected = true
         languageSelector.add(option);
       }
     })
@@ -27,6 +29,10 @@ function testCode(ev) {
   let code = window.editor.getValue();
   let selectedLanguage = document.getElementById("language-selector").value;
   let languageVersion = languages.find(x => x.language == selectedLanguage).version;
+
+  // TODO: get inputString from currently selected test case
+  let inputString = document.querySelector(".test-input")?.innerText || ""
+  
   let codeRunRequest = {
     language: selectedLanguage,
     version: languageVersion,
@@ -35,7 +41,7 @@ function testCode(ev) {
         content: code
       }
     ],
-    stdin: ""
+    stdin: inputString
   };
   fetch(EXECUTE_API, {
     method: "post",
@@ -46,6 +52,7 @@ function testCode(ev) {
   })
     .then((resp) => resp.json())
     .then((data) => {
+      console.log(data)
       document.getElementById("stdout").innerText = data.run.stdout;
       document.getElementById("stderr").innerText = data.run.stderr;
     });

@@ -69,10 +69,8 @@ class GameRoom
       handle_message(player, msg)
     end
 
-    if @puzzle
-      player.websocket.send(msg_puzzle)
-      player.websocket.send(msg_time_left)
-    end
+    player.websocket.send(msg_puzzle) if @puzzle
+    player.websocket.send(msg_time_left) if time_left > 0
 
     player.websocket.send(msg_players)
 
@@ -87,8 +85,8 @@ class GameRoom
   end
 
   def end_round
-    puts @players.map(&.summary).to_json
-    broadcast("ROUND_END:{}")
+    results = @players.map(&.summary).join(',')
+    broadcast("ROUND_END:[#{results}]")
   end
 
   def handle_message(sender : Player, msg : String)

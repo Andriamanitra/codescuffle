@@ -135,6 +135,10 @@ select:active {
   display: inline-block;
 }
 
+#start-button, #submit-button {
+  display: none;
+}
+
 #stderr {
   color: red;
 }
@@ -150,4 +154,15 @@ select:active {
 
 a {
   color: var(--neon);
+}
+
+.test-case-grid {
+  display: grid;
+  column-count: 2;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 1em;
+}
+
+.mono-box {
+  outline: 1px solid rgba(255,255,255,0.2);
 }
