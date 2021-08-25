@@ -13,9 +13,10 @@ function fetchLanguages() {
     .then(resp => resp.json())
     .then(data => {
       languages = data
+      languages.sort((a,b) => a.value < b.value ? 1 : -1)
       const languageSelector = this.document.getElementById("language-selector");
       languageSelector.innerHTML = "";
-      for(const obj of data) {
+      for(const obj of languages) {
         let option = document.createElement("option");
         option.text = obj.language[0].toUpperCase() + obj.language.substring(1);
         option.value = obj.language;
