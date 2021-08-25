@@ -1,0 +1,81 @@
+<% content_for "scripts_and_styles" do %>
+  <script src="https://cdn.jsdelivr.net/npm/codemirror@5.62.3/lib/codemirror.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/codemirror@5.62.3/mode/brainfuck/brainfuck.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/codemirror@5.62.3/mode/clike/clike.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/codemirror@5.62.3/mode/clojure/clojure.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/codemirror@5.62.3/mode/cobol/cobol.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/codemirror@5.62.3/mode/coffeescript/coffeescript.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/codemirror@5.62.3/mode/commonlisp/commonlisp.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/codemirror@5.62.3/mode/crystal/crystal.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/codemirror@5.62.3/mode/d/d.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/codemirror@5.62.3/mode/dart/dart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/codemirror@5.62.3/mode/erlang/erlang.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/codemirror@5.62.3/mode/fortran/fortran.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/codemirror@5.62.3/mode/go/go.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/codemirror@5.62.3/mode/groovy/groovy.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/codemirror@5.62.3/mode/haskell/haskell.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/codemirror@5.62.3/mode/javascript/javascript.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/codemirror@5.62.3/mode/julia/julia.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/codemirror@5.62.3/mode/lua/lua.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/codemirror@5.62.3/mode/mllike/mllike.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/codemirror@5.62.3/mode/octave/octave.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/codemirror@5.62.3/mode/pascal/pascal.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/codemirror@5.62.3/mode/perl/perl.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/codemirror@5.62.3/mode/php/php.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/codemirror@5.62.3/mode/python/python.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/codemirror@5.62.3/mode/ruby/ruby.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/codemirror@5.62.3/mode/rust/rust.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/codemirror@5.62.3/mode/swift/swift.js"></script>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@5.62.3/lib/codemirror.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@5.62.3/theme/monokai.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@5.62.3/theme/panda-syntax.css">
+
+  <script src="./js/codemirror-config.js" defer></script>
+  <script src="./js/piston-client.js" defer></script>
+  <script src="./js/gameroom.js" defer></script>
+<% end %>
+
+<main>
+  <div class="left-side content">
+    <div>
+      <h2 id="problem-title">Problem statement</h2>
+      <div id="problem-statement">A round hasn't started yet...</div>
+      <h2>Input description</h2>
+      <div id="input-description"></div>
+      <h2>Output description</h2>
+      <div id="output-description"></div>
+    </div>
+    <div>
+        <h2>Test cases</h2>
+        <div id="test-cases" class="test-case-grid">
+            <div class="test-input mono-box">This will be test input</div>
+            <div class="test-output mono-box">This will be expected output</div>
+        </div>
+    </div>
+    <div>
+        <h2>Output</h2>
+        <div id="output" class="mono-box">
+          <div>
+            <pre id="stderr"></pre>
+            <pre id="stdout"></pre>
+          </div>
+        </div>
+    </div>
+  </div>
+  <div class="editor">
+    <textarea id="codemirror" name="codemirror"></textarea>
+    <div class="editorButtons">
+      <% if is_gameroom %>
+      <button id="start-button" title="Start the round">Start round</button>
+      <button id="test-button" title="Execute code">Test</button>
+      <button id="submit-button" title="Submit finished solution">Submit</button>
+      <% else %>
+      <button id="test-button" title="Execute code">Execute</button>
+      <% end %>
+      <div class="spacer"></div>
+      <select name="languages" id="language-selector"></select>
+    </div>
+  </div>
+</main>

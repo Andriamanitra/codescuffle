@@ -24,6 +24,17 @@ module Website
     end
   end
 
+  get "/codemirror" do |env|
+    room_id = env.params.query["rid"]?
+    if room = gamerooms[room_id]?
+      is_gameroom = true
+      render "src/views/codemirror.ecr", "src/views/layouts/layout.ecr"
+    else
+      # TODO: proper error page
+      env.response.respond_with_status(404, "Game room not found")
+    end
+  end
+
   get "/editor" do |env|
     is_gameroom = false
     render "src/views/editor.ecr", "src/views/layouts/layout.ecr"
