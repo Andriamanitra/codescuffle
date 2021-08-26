@@ -52,9 +52,12 @@ function showTestCase(testcase) {
     testInputEl.innerText = testcase.input
     testOutputEl.innerText = testcase.output
 
-    let parent = document.getElementById("test-cases")
+    let testcaseRoot = document.getElementById("test-cases")
+    let parent = document.createElement("div")
+    parent.classList.add("test-case")
     parent.appendChild(testInputEl)
     parent.appendChild(testOutputEl)
+    testcaseRoot.appendChild(parent)
 
 }
 

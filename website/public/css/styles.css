@@ -31,7 +31,7 @@ body {
 
 main {
   flex: 1;
-  overflow-y: scroll;
+  overflow-y: hidden;
   overflow-x: hidden;
   display: flex;
   flex-direction: row;
@@ -52,6 +52,7 @@ header {
   align-items: center;
   padding: 0 1rem;
 }
+
 header h1 {
   margin: 0;
   margin-top: -0.35em;
@@ -62,6 +63,7 @@ footer {
   flex-shrink: 0;
   padding: 0.5rem;
 }
+
 footer img {
   height: 3rem;
 }
@@ -77,26 +79,26 @@ footer img {
   resize: horizontal;
   flex-grow: 0;
   flex-shrink: 0;
-  overflow: scroll;
   width: 40%;
   max-width: 60%;
   height: 100%;
-  /* without this chromium shows scrollbars even when nothing is overflowing */
   overflow: auto;
 }
 
 .editor {
   height: 100%;
-  width: 100%;
   display: flex;
   flex-direction: column;
+  flex-grow: 2;
   background-color: var(--bg0);
 }
+
 .code-editor {
   flex: 1;
   height: 100%;
   /* overflow: hidden; */
 }
+
 #monaco {
   width: 97%;
   height: 100%;
@@ -109,6 +111,7 @@ footer img {
   padding: 0.5rem;
   border-top: var(--fg1) 1px solid;
 }
+
 button,
 select {
   font-size: 1.5rem;
@@ -121,21 +124,25 @@ select {
   cursor: pointer;
   background-color: var(--b);
 }
+
 button:hover,
 select:hover {
   background-color: var(--a);
 }
+
 button:active,
 select:active {
   background-color: var(--c);
 }
+
 .spacer {
   width: 0.5rem;
   height: 100%;
   display: inline-block;
 }
 
-#start-button, #submit-button {
+#start-button,
+#submit-button {
   display: none;
 }
 
@@ -143,12 +150,12 @@ select:active {
   color: red;
 }
 
-.logo > a {
+.logo>a {
   text-decoration: none;
   color: inherit;
 }
 
-.links > a {
+.links>a {
   margin-left: 50px;
 }
 
@@ -156,13 +163,32 @@ a {
   color: var(--neon);
 }
 
-.test-case-grid {
-  display: grid;
-  column-count: 2;
-  grid-template-columns: 1fr 1fr;
-  grid-gap: 1em;
+.mono-box {
+  outline: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.mono-box {
-  outline: 1px solid rgba(255,255,255,0.2);
+.test-case {
+  margin-bottom: 1em;
+  display: flex;
+}
+
+.test-input,
+.test-output {
+  display: inline-block;
+  flex-basis: 0;
+  flex-grow: 1;
+  margin: 5px;
+  padding: 0.6em;
+  font-family: monospace, sans-serif;
+  white-space: pre;
+  background-color: var(--bg2);
+}
+
+.editor .CodeMirror {
+  height: 100%;
+}
+
+#output {
+  min-height: 3em;
+  margin-bottom: 1em;
 }

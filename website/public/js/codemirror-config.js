@@ -1,8 +1,13 @@
-var editor = CodeMirror.fromTextArea(document.getElementById("codemirror"), {
+var editor = CodeMirror(function(el) {
+    let textareaEl = document.getElementById("codemirror");
+    textareaEl.parentNode.replaceChild(el, textareaEl);
+}, {
     lineNumbers: true,
-    mode: "javascript",
-    theme: "monokai"
-})
+    theme: "monokai",
+    autofocus: true,
+    fixedGutter: false,
+    scrollbarStyle: "native"
+});
 
 const langModes = {
     // clike.js
@@ -22,7 +27,6 @@ const langModes = {
 const updateLang = () => {
     const selectedLang = document.getElementById("language-selector").value
     let langMode = langModes[selectedLang] || selectedLang
-    
     editor.setOption("mode", langMode)
 }
 document.getElementById("language-selector").onchange = updateLang
