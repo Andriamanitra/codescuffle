@@ -150,6 +150,11 @@ select:active {
   color: red;
 }
 
+#stderr,
+#stdout {
+  margin: 0px;
+}
+
 .logo>a {
   text-decoration: none;
   color: inherit;
@@ -165,6 +170,11 @@ a {
 
 .mono-box {
   outline: 1px solid rgba(255, 255, 255, 0.2);
+  overflow-x: scroll;
+  font-family: monospace, sans-serif;
+  margin: 5px;
+  padding: 0.6em;
+  background-color: var(--bg2);
 }
 
 .test-case {
@@ -175,14 +185,21 @@ a {
 .test-input,
 .test-output {
   display: inline-block;
+  white-space: pre;
   flex-basis: 0;
   flex-grow: 1;
-  margin: 5px;
-  padding: 0.6em;
-  font-family: monospace, sans-serif;
-  white-space: pre;
-  background-color: var(--bg2);
-  overflow-x: scroll;
+}
+
+.selected-test {
+  outline: 6px solid rgba(0, 238, 255, 0.65);
+}
+
+.failed-test>.mono-box {
+  outline: 1px solid rgba(255, 0, 0, 0.65);
+}
+
+.successful-test>.mono-box {
+  outline: 1px solid rgba(0, 255, 69, 0.65);
 }
 
 .problem-container,
@@ -191,7 +208,7 @@ a {
   padding: 0px 5px;
   outline: 5px solid rgba(255, 255, 255, 0.1);
   overflow-y: scroll;
-  min-height: 10%;
+  min-height: 12%;
 }
 
 .problem-container>h2,
