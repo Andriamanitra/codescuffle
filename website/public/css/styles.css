@@ -42,7 +42,6 @@ main {
 header,
 footer {
   background-color: var(--bg1);
-  min-height: 50px;
 }
 
 header {
@@ -65,12 +64,12 @@ footer {
 }
 
 footer img {
-  height: 3rem;
+  height: 2rem;
 }
 
 .content {
   background-color: var(--bg0);
-  padding: 0 1rem;
+  padding: 1rem;
 }
 
 .left-side {
@@ -79,6 +78,7 @@ footer img {
   resize: horizontal;
   flex-grow: 0;
   flex-shrink: 0;
+  row-gap: 1.5rem;
   width: 40%;
   max-width: 60%;
   height: 100%;
@@ -182,6 +182,23 @@ a {
   font-family: monospace, sans-serif;
   white-space: pre;
   background-color: var(--bg2);
+  overflow-x: scroll;
+}
+
+.problem-container,
+.test-cases-container,
+.output-container {
+  padding: 0px 5px;
+  outline: 5px solid rgba(255, 255, 255, 0.1);
+  overflow-y: scroll;
+  min-height: 10%;
+}
+
+.problem-container>h2,
+.test-cases-container>h2,
+.output-container>h2 {
+  margin-top: 0;
+  margin-bottom: 12px;
 }
 
 .editor .CodeMirror {
