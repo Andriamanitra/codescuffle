@@ -91,6 +91,10 @@ class GameRoom
 
   def handle_message(sender : Player, msg : String)
     if msg.starts_with?("SUBMIT:")
+      if !round_in_progress?
+        sender.websocket.send("ERROR: Round is over")
+        return
+      end
       # TODO: check if submission code produces correct output
       begin
         submission = Submission.from_json(msg[7..])
@@ -101,6 +105,10 @@ class GameRoom
         sender.websocket.send("ERROR: Invalid submission")
         return
       end
+      # end round if everyone has submitted at least once
+      if @players.all? { |player| player.submissions.size > 0 }
+        @round_end = Time.utc
+      end
     elsif sender == @owner && handle_owner_message(msg)
       return
     else
@@ -109,7 +117,7 @@ class GameRoom
   end
 
   private def handle_owner_message(msg)
-    if msg.starts_with?("START_ROUND:")
+    if msg.starts_with?("START_ROUND:") && !round_in_progress?
       start_round
     else
       return false # Unrecognized message
@@ -156,12 +164,21 @@ class GameRoom
     broadcast(msg_puzzle)
     broadcast(msg_time_left)
     spawn do
-      sleep(@settings.time_per_round)
-      end_round
+      loop do
+        sleep(1)
+        if Time.utc > @round_end
+          end_round
+          break
+        end
+      end
     end
   end
 
   def time_left
     (@round_end - Time.utc).total_seconds.to_i
+  end
+
+  def round_in_progress?
+    @round_end > Time.utc
   end
 end
