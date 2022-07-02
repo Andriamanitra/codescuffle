@@ -2,12 +2,13 @@ require "http"
 require "./GameRoomSettings"
 require "./Puzzle"
 require "./Submission"
+require "./DbAdapter"
 
 class Player
   @name : String
   @websocket : HTTP::WebSocket
   @submissions : Array(Submission)
-  getter :name, :websocket
+  getter :name, :websocket, :submissions
 
   def initialize(@name, @websocket)
     @submissions = [] of Submission
@@ -20,15 +21,6 @@ class Player
   def clear_submissions
     @submissions = [] of Submission
   end
-
-  def summary
-    JSON.build do |json|
-      json.object do
-        json.field "name", @name
-        json.field "submissions", @submissions
-      end
-    end
-  end
 end
 
 class GameRoom
@@ -37,7 +29,7 @@ class GameRoom
   @players : Array(Player)
   # TODO: eventually this should instance of the dedicated Puzzle class,
   # but for now just use string containing JSON
-  @puzzle : String?
+  @puzzle : Puzzle?
   @owner : Player?
   @round_end : Time
 
@@ -85,8 +77,14 @@ class GameRoom
   end
 
   def end_round
-    results = @players.map(&.summary).join(',')
-    broadcast("ROUND_END:[#{results}]")
+    submissions = @players.flat_map(&.submissions)
+    result_id = put_results(
+      @round_end,
+      @puzzle.not_nil!,
+      submissions
+    )
+    # TODO: figure out the right url
+    broadcast("ROUND_END:https://localhost:8081/results/#{result_id}")
   end
 
   def handle_message(sender : Player, msg : String)
@@ -97,7 +95,7 @@ class GameRoom
       end
       # TODO: check if submission code produces correct output
       begin
-        submission = Submission.from_json(msg[7..])
+        submission = Submission.from_json(msg[7..], sender.name)
         sender.add_submission(submission)
         broadcast("SUBMITTED:#{sender.name}")
       rescue JSON::ParseException
@@ -126,7 +124,11 @@ class GameRoom
   end
 
   def msg_puzzle
-    "PUZZLE:#{@puzzle}"
+    if puzzle = @puzzle
+      "PUZZLE:#{puzzle.json}"
+    else
+      "PUZZLE:{}" # TODO: this *shouldn't* ever happen, restructure code so this can be removed
+    end
   end
 
   def msg_players
@@ -161,7 +163,7 @@ class GameRoom
     @players.each(&.clear_submissions)
     @puzzle = Puzzle.random
     @round_end = Time.utc + @settings.time_per_round
-    broadcast(msg_puzzle)
+    broadcast(msg_puzzle) if @puzzle
     broadcast(msg_time_left)
     spawn do
       loop do

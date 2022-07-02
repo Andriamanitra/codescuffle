@@ -11,7 +11,9 @@ targets:
 dependencies:
   kemal:
     github: kemalcr/kemal
+  pg:
+    github: will/crystal-pg
 
-crystal: 1.1.1
+crystal: 1.4.1
 
 license: MIT

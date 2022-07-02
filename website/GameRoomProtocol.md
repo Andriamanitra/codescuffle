@@ -62,7 +62,7 @@ This is broadcasted to ALL clients whenever a player leaves the room.
 
 ---
 
-```ROUND_END:<results as JSON>```
+```ROUND_END:<link to results page as plain text>```
 
 This is broadcasted to ALL clients when a round ends. The format of the JSON is as of yet unspecified.
 

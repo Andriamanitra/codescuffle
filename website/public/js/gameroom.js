@@ -150,7 +150,7 @@ socket.addEventListener("message", function (event) {
     } else if (cmd == "ROUND_END") {
         roundInProgress = false
         updateButtonVisibility()
-        console.log(JSON.parse(msgContent)) // TODO
+        alert(msgContent)
     } else {
         console.warn(`Did not handle ${cmd} message`)
     }

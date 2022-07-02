@@ -1,5 +1,6 @@
 require "kemal"
 require "./GameRoom"
+require "./DbAdapter"
 
 module Website
   VERSION = "0.1.0"
@@ -21,6 +22,17 @@ module Website
     else
       # TODO: proper error page
       env.response.respond_with_status(404, "Game room not found")
+    end
+  end
+
+  get "/results/:result_id" do |env|
+    result_id = env.params.url["result_id"]
+    round_end_time, puzzle_name = fetch_result(result_id)
+    submissions = fetch_submissions(result_id)
+    if submissions
+      render "src/views/results.ecr", "src/views/layouts/layout.ecr"
+    else
+      env.response.respond_with_status(404, "Results not found")
     end
   end
 

@@ -1,0 +1,16 @@
+<main class="content">
+<div class="results-container">
+  <h2>Scuffle '<%= puzzle_name %>' at <%= round_end_time %></h2>
+  <% submissions.each do |player, language, code, timestamp, code_size| %>
+    <div class="submission">
+        <span class="player-name"><%= player %></span>
+        submitted a
+        <span class="solution-size"><%= code_size %>-byte</span>
+        <span class="solution-language"><%= language %></span>
+        solution to the problem at
+        <span class="solution-time"><%= timestamp %></span>
+        <pre class="code"><%= code %></pre>
+    </div>
+  <% end %>
+</div>
+</main>
