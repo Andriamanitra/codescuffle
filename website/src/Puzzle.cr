@@ -12,13 +12,13 @@ PUZZLE = %[{
 }]
 
 class Puzzle
-  getter @title : String
-  getter @json : String
+  getter title : String
+  getter json : String
 
   def initialize(@title, @json)
   end
 
-  def self.random : String
+  def self.random
     Puzzle.new("FizzBuzz", PUZZLE)
   end
 end
